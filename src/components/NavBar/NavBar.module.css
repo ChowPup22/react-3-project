@@ -1,0 +1,51 @@
+.cart_button {
+  position: absolute;
+  top: 25px;
+  right: 15px;
+}
+
+.modal-wrap {
+  position: relative!important;
+  margin: 0 auto;
+}
+
+.modal, .overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.overlay {
+  background-color: rgb(49, 49, 49, 0.8);
+}
+
+.modal_content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 600px;
+  min-width: 300px;
+  z-index: 100;
+}
+
+.close_modal {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  font-weight: 700;
+  color: white;
+  background-color: rgb(174, 15, 15);
+  border: 2px solid transparent;
+  border-radius: 7px;
+  z-index: 100;
+}

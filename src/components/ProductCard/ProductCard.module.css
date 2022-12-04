@@ -1,0 +1,104 @@
+body.active-modal {
+  overflow-y: hidden;
+}
+
+.product_img {
+  height: 100px;
+  width: 100px;
+  margin: 0 auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.div_hover {
+  text-decoration: none;
+  color: initial;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 80%;
+}
+
+.div_hover:hover {
+  color: initial;
+}
+
+.div_hover:hover .hidden {
+  opacity: 1!important;
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  align-items: center;
+  color: #0de37f;
+  font-weight: 800;
+  font-size: 20px;
+  border: 4px solid #0de37f!important;
+  border-radius: 5px;
+  background-color: rgb(0, 0, 0, 0.8);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.btn_hover {
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.btn_hover:hover .hidden {display: none;}
+
+.modal, .overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.overlay {
+  background-color: rgb(49, 49, 49, 0.8);
+}
+
+.modal_content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 600px;
+  min-width: 300px;
+  z-index: 100;
+}
+
+.close_modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: 700;
+  color: white;
+  background-color: rgb(174, 15, 15);
+  border: 2px solid transparent;
+  border-radius: 7px;
+}
+
+p.inStock {
+  color: #0de37f!important;
+  font-weight: 800;
+}
+
+p.outOfStock {
+  color: #ff0000!important;
+  font-weight: 800;
+  text-decoration: line-through!important;
+}

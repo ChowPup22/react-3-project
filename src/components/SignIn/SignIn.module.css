@@ -1,0 +1,49 @@
+.sign_wrap {
+  background-color: white;
+  padding: 20px;
+  color: rgb(43, 42, 42);
+}
+
+.radial_wrap {
+  color: black;
+  display: flex;
+  justify-content: space-around;
+  font-size: 27px;
+}
+form { position: relative; }
+
+.pass_toggle {
+  position: absolute;
+  top: 110px;
+  right: 12px;
+  color: gray;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.fb_wrap {
+  position: relative;
+}
+
+.btn_wrapper {
+  text-align: center;
+}
+
+.main {
+  background: #E43C2A;
+  border: 1px solid #E43C2A;
+  font-size: 30px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  width: 98%;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.fb.main {
+  background-color: #183254;
+  border: 1px solid #183254;
+  font-size: 25px;
+  padding: 15px;
+}
