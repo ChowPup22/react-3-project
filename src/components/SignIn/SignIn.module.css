@@ -21,10 +21,6 @@ form { position: relative; }
   font-size: 28px;
 }
 
-.fb_wrap {
-  position: relative;
-}
-
 .btn_wrapper {
   text-align: center;
 }
@@ -39,11 +35,4 @@ form { position: relative; }
   width: 98%;
   margin-top: 10px;
   cursor: pointer;
-}
-
-.fb.main {
-  background-color: #183254;
-  border: 1px solid #183254;
-  font-size: 25px;
-  padding: 15px;
 }
