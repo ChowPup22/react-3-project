@@ -48,7 +48,32 @@ class ShopperService {
             firstName: item.firstname,
             meta: item.meta,
           }));
-          console.log(data);
+          success( data, response );
+        } else {
+          const json = await response.json();
+          failure( {error: `Error ${json.status_code}: ${json.error.message} -- ${json.error.errors.email}`} );
+          alert(`Error ${json.status_code}: ${json.error.message} -- ${json.error.errors.email}`);
+        }
+      } catch (error) {
+        failure(error);
+      }
+    })
+  }
+
+  async getUserById(id) {
+    return new Promise(async ( success, failure ) => {
+      try {
+        const response = await fetch(`${SHOPPER_URL}/customers/${id}`, {method: 'GET', headers: HEADERS})
+        if(response.ok) {
+          const json = await response.json();
+          const data = {
+            id: json.id,
+            firstName: json.firstname,
+            lastName: json.lastname,
+            email: json.email,
+            phone: json.phone,
+            meta: json.meta,
+          };
           success( data, response );
         } else {
           const json = await response.json();

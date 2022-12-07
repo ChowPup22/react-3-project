@@ -14,6 +14,7 @@ class NavBar extends React.Component {
       userCart: false,
       signModal: false,
       userId: '',
+      cartId: '',
     }
   }
 
@@ -43,14 +44,18 @@ class NavBar extends React.Component {
   handleUserCart = () => {
     const { userSignedIn, userCart, userId } = this.state;
     if(userSignedIn) {
-      
+      shopper.getUserById(userId).then(res => {
+        shopper.getShopperCart(res.meta.userCart).then(res => {
+          console.log(res);
+        });
+      });
     }
   }
 
   handleUser = () => {
     const { userSignedIn } = this.state;
     if(userSignedIn) {
-      // show user profile  
+      // sign out user modal/ confirm sign out
     } else if(!userSignedIn) {
       document.body.classList.add('active-modal');
       this.setState({

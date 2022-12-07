@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './SignIn.module.css';
 import InputBase from '../InputBase/InputBase';
-import { emailValidation, onlyTextValidation, passwordValidation, zipCodeValidation } from '../../Constants/Validations';
+import { validations} from '../../Constants/Validations';
 import { INIT_PASS, INIT_CREATE, INIT_SIGN, INIT_FORM, } from '../../Constants/States';
 import { visible } from '../../Constants/Icons';
 import ShopperService from '../../services';
@@ -17,8 +17,14 @@ class SignIn extends React.Component {
       button: 'Create Account',
       inputData: INIT_CREATE,
       passData: INIT_PASS,
-      users: shopper.getAllUsers(),
+      users: [],
     }
+  }
+
+  async getUsers() {
+    const users = await shopper.getAllUsers();
+    this.setState({ users });
+    console.log(users);
   }
 
   handleState = (name, value) => {
@@ -42,6 +48,7 @@ class SignIn extends React.Component {
   };
 
   handleSignUI = () => {
+    this.getUsers();
       this.setState({
         inputData: INIT_SIGN,
         formData: {
@@ -70,76 +77,23 @@ class SignIn extends React.Component {
     }));
   };
 
+  
+
   handleValidations = (type, value) => {
-    const { pass, passConfirm } = this.state.formData;
-    let errorText;
-    switch(type) {
-      case 'email':
-        errorText = emailValidation(value);
-        this.setState((prevState) => ({
-          error: {
-            ...prevState.error,
-            emailError: errorText,
-          }
-        }));
-        break;
-      case 'pass':
-        errorText = passwordValidation(value);
-        this.setState((prevState) => ({
-          error: {
-            ...prevState.error,
-            passError: errorText,
-          }
-        }));
-        break;
-      case 'passConfirm':
-        errorText = passwordValidation(value);
-        if (pass === passConfirm) {
-          this.setState((prevState) => ({
-            error: {
-              ...prevState.error,
-              passConfirmError: errorText,
-            }
-          }));
-        } else if (pass !== passConfirm){
-          this.setState((prevState) => ({
-            error: {
-              ...prevState.error,
-              passConfirmError: 'Passwords must match to continue!',
-            }
-          }));
-        }
-        break;
-        case 'firstName':
-        errorText = onlyTextValidation(value);
-        this.setState((prevState) => ({
-          error: {
-            ...prevState.error,
-            firstNameError: errorText,
-          }
-        }));
-        break;
-        case 'lastName':
-        errorText = onlyTextValidation(value);
-        this.setState((prevState) => ({
-          error: {
-            ...prevState.error,
-            lastNameError: errorText,
-          }
-        }));
-        break;
-        case 'zipCode':
-        errorText = zipCodeValidation(value);
-        this.setState((prevState) => ({
-          error: {
-            ...prevState.error,
-            zipCodeError: errorText,
-          }
-        }));
-        break;
-      default:
-        break;
+    const { pass } = this.state.formData;
+
+    const validationSign = {
+      ...validations,
+      passConfirm: (value) => (pass === value) ? null : 'Passwords do not match',
     }
+
+    const errorText = validationSign[type](value);
+    this.setState((prevState) => ({
+      error: {
+        ...prevState.error,
+        [`${type}Error`]: errorText,
+      }
+    }));
   };
 
   handleBlur = ({ target: {name, value}}) => this.handleValidations(name, value);
@@ -161,13 +115,13 @@ class SignIn extends React.Component {
     return isError;
   };
 
-  handleCreateUser = (e) => {
+  handleCreateUser = async (e) => {
     const { formData } = this.state;
     e.preventDefault();
 
     const errorCheck = this.checkErrorBeforeSave();
     if (!errorCheck) {
-      const cart = shopper.createShopperCart().then((res) => res.id)
+      const cart = await shopper.createShopperCart().then((res) => res.id)
       const newBody = {
         email: formData.email,
         firstname: formData.firstName,
@@ -181,6 +135,7 @@ class SignIn extends React.Component {
       shopper.postNewUser(newBody)
         .then((res) => {
           this.handleState('userId', res.id);
+          this.handleState('cartId', res.meta.userCart);
         })
       this.handleState('signModal', false);
       this.handleState('userSignedIn', true);
@@ -188,10 +143,30 @@ class SignIn extends React.Component {
   };
 
   handleSignIn = (e) => {
-    const { formData } = this.state;
+    const { formData, users } = this.state;
     e.preventDefault();
     const errorCheck = this.checkErrorBeforeSave();
     if (!errorCheck) {
+      const user = users.find((item) => item.email === formData.email);
+      if (user) {
+        if (user.meta.password === formData.pass) {
+          this.handleState('userId', user.id);
+          this.handleState('signModal', false);
+          this.handleState('userSignedIn', true);
+        } else {
+          this.setState({
+            error: {
+              passError: 'Incorrect password',
+            }
+          });
+        }
+      } else {
+        this.setState({
+          error: {
+            emailError: 'Email does not exist',
+          }
+        });
+      }
     }
   };
 
@@ -240,7 +215,7 @@ class SignIn extends React.Component {
           )) : null}
           <span className={styles.pass_toggle} onClick={this.passVisibility}>{passData.passIcon}</span>
           <div className={styles.btn_wrapper}>
-            <InputBase type="submit" value={button} className={styles.main}/>
+            <InputBase type="submit" value={button} className={styles.main} onSubmit={button === 'Sign In' ? this.handleSignIn : this.handleCreateUser }/>
           </div>
         </form>  
       </div>
