@@ -59,7 +59,7 @@ class NavBar extends React.Component {
   }
 
   handleUserCart = () => {
-    const { userSignedIn, userCartModal, userId } = this.state;
+    const { userSignedIn, userId } = this.state;
     if(userSignedIn) {
       document.body.classList.add('active-modal');
       shopper.getUserById(userId).then(res => {
@@ -86,7 +86,7 @@ class NavBar extends React.Component {
   render() {
     const {
       userSignedIn,
-      userCart,
+      userCartModal,
       cartId,
       signModal
     } = this.state;
@@ -116,7 +116,7 @@ class NavBar extends React.Component {
             </div>
           </div>  
       )}
-      {userCart && (
+      {userCartModal && (
         <div className={styles.modal_wrap}>
           <div className={styles.modal}>
             <div className={styles.overlay} onClick={this.handleCartModal}></div>
