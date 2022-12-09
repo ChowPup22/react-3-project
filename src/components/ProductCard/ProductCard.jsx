@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./ProductCard.module.css";
+import ShopperService from "../../services";
 
+const shopper = new ShopperService();
 class ProductCard extends React.Component {
 
   constructor(props) {
@@ -58,6 +60,30 @@ class ProductCard extends React.Component {
     }
   }
 
+  handleAddToCart = (e) => {
+    e.preventDefault();
+    const { quantity } = this.state;
+    const { id, inventory } = this.props.data;
+    const { cartId } = this.props;
+
+    const newBody = {
+      id: id,
+      quantity: quantity,
+    }
+    shopper.getShopperCart(cartId).then(res => {
+      const item = res.items.find(item => item.id === id)
+      if (item) {
+        if(inventory >= item.quantity + quantity) {
+          shopper.addProductToCart(cartId, newBody);
+        } else {
+          alert('Not enough inventory!');
+        }
+      } else {
+        shopper.addProductToCart(cartId, newBody);
+      }
+    });
+  }
+
   render() {
     const {
       name,
@@ -86,6 +112,7 @@ class ProductCard extends React.Component {
             type="button"
             className="position-absolute btn btn-danger btn-sm w-50 end-0 bottom-0"
             style={{marginBottom: '5px', marginRight: '5px'}}
+            onClick={this.handleAddToCart}
             >{invBtn}</button>
         </div>
       </div>
@@ -115,6 +142,7 @@ class ProductCard extends React.Component {
             type="button"
             className="position-absolute btn btn-danger btn-sm w-25 end-0 bottom-0"
             style={{marginBottom: '15px', marginRight: '10px', fontSize: '1.5rem'}}
+            onClick={this.handleAddToCart}
             >{invBtn}</button>
           </div>
         </div>

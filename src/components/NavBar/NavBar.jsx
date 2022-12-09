@@ -19,6 +19,10 @@ class NavBar extends React.Component {
     }
   }
 
+  handleState = (name, value) => {
+    this.props.handleStateData(name, value);
+  };
+
   handleSignModal = () => {
     const { signModal } = this.state;
     
@@ -52,6 +56,7 @@ class NavBar extends React.Component {
   }
 
   handleFormData = (name, value) => {
+    if(name === 'cartId') this.handleState(name, value);
     this.setState(prev => ({
         ...prev,
         [name]: value,

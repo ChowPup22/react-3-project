@@ -133,7 +133,7 @@ class ShopperService {
             totalItems: json.total_items,
             subtotal: json.subtotal.formatted_with_symbol,
             items: json.line_items.map(item => ({
-              id: item.id,
+              id: item.product_id,
               name: item.name,
               quantity: item.quantity,
               lineTotal: item.line_total.formatted_with_symbol
@@ -167,7 +167,36 @@ class ShopperService {
             totalItems: json.total_items,
             subtotal: json.subtotal.formatted_with_symbol,
             items: json.line_items.map(item => ({
-              id: item.id,
+              id: item.product_id,
+              name: item.name,
+              quantity: item.quantity,
+              lineTotal: item.line_total.formatted_with_symbol
+            })),
+          };
+          success( data, response );
+        } else {
+          const json = await response.json();
+          failure( {error: `Error ${json.status_code}: ${json.error.message} -- ${json.error.errors.email}`} );
+          alert(`Error ${json.status_code}: ${json.error.message} -- ${json.error.errors.email}`);
+        }
+      } catch (error) {
+        failure(error);
+      }
+    })
+  }
+
+  async addProductToCart(cartId, body) {
+    return new Promise(async ( success, failure ) => {
+      try {
+        const response = await fetch(`${SHOPPER_URL}/carts/${cartId}`, {method: 'POST', headers: HEADERS, body: JSON.stringify(body)})
+        if(response.ok) {
+          const json = await response.json();
+          const data = {
+            id: json.id,
+            totalItems: json.total_items,
+            subtotal: json.subtotal.formatted_with_symbol,
+            items: json.line_items.map(item => ({
+              id: item.product_id,
               name: item.name,
               quantity: item.quantity,
               lineTotal: item.line_total.formatted_with_symbol

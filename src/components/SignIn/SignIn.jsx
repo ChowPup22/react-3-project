@@ -24,7 +24,6 @@ class SignIn extends React.Component {
   async getUsers() {
     const users = await shopper.getAllUsers();
     this.setState({ users });
-    console.log(users);
   }
 
   handleState = (name, value) => {
@@ -151,6 +150,7 @@ class SignIn extends React.Component {
       if (user) {
         if (user.meta.password === formData.pass) {
           this.handleState('userId', user.id);
+          this.handleState('cartId', user.meta.userCart);
           this.handleState('signModal', false);
           this.handleState('userSignedIn', true);
         } else {
