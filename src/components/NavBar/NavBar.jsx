@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./NavBar.module.css";
-import { CART_ICON, USER_ICON } from "../../Constants/Icons";
+import { CART_ICON, USER_ICON, USER_CHECK_ICON } from "../../Constants/Icons";
 import ShopperService from "../../services";
 import SignIn from "../SignIn/SignIn";
 import UserCart from "../UserCart/UserCart";
@@ -99,8 +99,8 @@ class NavBar extends React.Component {
     return (
       <>
         <div className={styles.cart_button}>
-          <button type="button" className="btn btn-primary me-3" onClick={this.handleUser}>{USER_ICON}</button>
-          <button type="button" className="btn btn-primary position-relative" onClick={this.handleUserCart}>
+          <button type="button" className="btn btn-success me-3" onClick={this.handleUser}>{userSignedIn ? USER_CHECK_ICON :USER_ICON}</button>
+          <button type="button" className="btn btn-success position-relative" onClick={this.handleUserCart}>
             {CART_ICON}
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {x ? <span>{x}</span> : null}
@@ -115,7 +115,7 @@ class NavBar extends React.Component {
                 <SignIn handleFormData={this.handleFormData} />
                 <button
                   className={styles.close_modal}
-                  onClick={this.handleModal}
+                  onClick={this.handleSignModal}
                 >X</button>
               </div>
             </div>

@@ -21,6 +21,7 @@ class UserCart extends React.Component {
     shopper.getShopperCart(this.props.data)
       .then((res) => {
         if(res) {
+          console.log(res);
           this.setState({
             cartData: res,
             loading: false,
@@ -42,7 +43,26 @@ class UserCart extends React.Component {
     return (
       <div className={styles.cart_wrap}>
         <h1>Test Cart</h1>
-        { loading ? <div>Loading...</div> : null }
+        { loading ? <div>Loading...</div> 
+        : 
+        ( <>
+          <div className="float-start">{`Total Items: ${cartData.totalItems}`}</div>
+          <br />
+          {cartData.totalItems > 0 && cartData.items.map((item) => (
+            <div key={item.id} className='d-flex flex-row justify-content-around'>
+              <div>{item.name}</div>
+              <div>{item.quantity}</div>
+              <div>{item.lineTotal}</div>
+            </div>
+          ))
+          }
+          <div className="float-end">{`Subtotal: ${cartData.subtotal}`}</div>
+          <br />
+          <div>
+            <button className="btn btn-success">Checkout</button>
+          </div>
+        </> ) }
+
         { error && <h3 className="text-danger">Error loading data 😔</h3> }
       </div>
     )
