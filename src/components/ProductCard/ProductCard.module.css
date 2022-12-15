@@ -103,3 +103,9 @@ p.outOfStock {
   font-weight: 800;
   text-decoration: line-through!important;
 }
+
+.popup {
+  color: #0de37f;
+  font-weight: 800;
+  font-size: 20px;
+}

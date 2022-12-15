@@ -11,6 +11,7 @@ class ProductCard extends React.Component {
       productModal: false,
       quantity: 1,
       modalPrice: 0,
+      popup: false,
     }
   }
 
@@ -60,6 +61,16 @@ class ProductCard extends React.Component {
     }
   }
 
+  handlePopup = () => {
+    const { popup } = this.state;
+    if (!popup) {
+      this.setState({ popup: true });
+      setTimeout(() => {
+        this.setState({ popup: false });
+      }, 2000);
+    }
+  }
+
   handleAddToCart = (e) => {
     e.preventDefault();
     const { quantity } = this.state;
@@ -75,6 +86,7 @@ class ProductCard extends React.Component {
       if (item) {
         if(inventory >= item.quantity + quantity) {
           shopper.addProductToCart(cartId, newBody);
+          this.handlePopup();
         } else {
           alert('Not enough inventory!');
         }
@@ -93,7 +105,7 @@ class ProductCard extends React.Component {
       img,
     } = this.props.data;
 
-    const { productModal, quantity } = this.state;
+    const { productModal, quantity, popup } = this.state;
 
     const invStyle = inventory > 0 ? 'text-success' : 'text-danger text-decoration-line-through';
     const invBtn = inventory > 0 ? "Add to Cart" : "Out of Stock";
@@ -104,6 +116,7 @@ class ProductCard extends React.Component {
         <div className={["card px-3 py-3 position-relative shadow", styles.div_hover]} style={{height: '300px'}}>
           <a className={styles.div_hover}>
             <div onClick={this.handleModal} className={styles.hidden}>{hoverText}</div>
+            { popup && <div className={styles.popup}>Added to Cart!</div> }
             <h3 className="card-title">{name}</h3>
             <img src={img} alt={name} className={styles.product_img}/>
           </a>
@@ -123,6 +136,7 @@ class ProductCard extends React.Component {
         <div className={styles.modal}>
           <div className={styles.overlay} onClick={this.handleModal}></div>
           <div className={styles.modal_content}>
+          { popup && <div className={styles.popup}>Added to Cart!</div> }
             <h2>{name}</h2>
             <img src={img} alt={name} />
             <p>{desc}</p>
