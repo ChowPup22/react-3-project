@@ -92,21 +92,26 @@ class ProductCard extends React.Component {
       id: id,
       quantity: quantity,
     }
-    shopper.getShopperCart(cartId).then(res => {
-      const item = res.items.find(item => item.id === id)
-      if (item) {
-        if(inventory >= item.quantity + quantity) {
-          shopper.addProductToCart(cartId, newBody).then(res => {
-            this.handleState('totalItems', res.totalItems);
-          });
-          this.handlePopup('add');
+    if(cartId) {
+      shopper.getShopperCart(cartId).then(res => {
+        const item = res.items.find(item => item.id === id)
+        if (item) {
+          if(inventory >= item.quantity + quantity) {
+            shopper.addProductToCart(cartId, newBody).then(res => {
+              this.handleState('totalItems', res.totalItems);
+            });
+            this.handlePopup('add');
+          } else {
+            this.handlePopup('no');
+          }
         } else {
-          this.handlePopup('no');
+          shopper.addProductToCart(cartId, newBody);
+          this.handlePopup('add');
         }
-      } else {
-        shopper.addProductToCart(cartId, newBody);
-      }
-    });
+      });
+    } else {
+      alert('Please login to add items to cart!');
+    }
   }
 
   render() {
