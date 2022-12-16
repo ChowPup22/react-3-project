@@ -12,6 +12,7 @@ class ShopperContainer extends React.Component {
     loading: false,
     error: false,
     cartId: '',
+    totalItems: 0,
   }
 
   handleStateData = (name, value) => {
@@ -44,19 +45,16 @@ class ShopperContainer extends React.Component {
 
   }
 
-
-
-
   render() {
 
-    const { data, error, loading, cartId } = this.state;
+    const { data, error, loading, cartId, totalItems } = this.state;
     return(
       <div className="container mt-5">
         <h2>Shopper</h2>
-        <NavBar handleStateData={this.handleStateData} />
+        <NavBar handleStateData={this.handleStateData} data={totalItems} />
         <div className="row justify-content-center">
           { !loading ? data.map(item => (
-            <ProductCard data={item} key={item.id} cartId={cartId} />
+            <ProductCard data={item} key={item.id} cartId={cartId} handleStateData={this.handleStateData} />
           )) : <div>Loading...</div> }
         </div>
         { error && <h3 className="text-danger">Error loading data 😔</h3> }

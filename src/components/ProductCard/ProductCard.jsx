@@ -11,9 +11,14 @@ class ProductCard extends React.Component {
       productModal: false,
       quantity: 1,
       modalPrice: 0,
-      popup: false,
+      addPopup: false,
+      noInvPopup: false,
     }
   }
+
+  handleState = (name, value) => {
+    this.props.handleStateData(name, value);
+  };
 
   componentDidMount() {
     this.setState({
@@ -61,12 +66,18 @@ class ProductCard extends React.Component {
     }
   }
 
-  handlePopup = () => {
-    const { popup } = this.state;
-    if (!popup) {
-      this.setState({ popup: true });
+  handlePopup = (name) => {
+    const { addPopup, noInvPopup } = this.state;
+
+    if (name === 'add' && !addPopup) {
+      this.setState({ addPopup: true });
       setTimeout(() => {
-        this.setState({ popup: false });
+        this.setState({ addPopup: false });
+      }, 2000);
+    } else if (name === 'no' && !noInvPopup) {
+      this.setState({ noInvPopup: true });
+      setTimeout(() => {
+        this.setState({ noInvPopup: false });
       }, 2000);
     }
   }
@@ -85,10 +96,12 @@ class ProductCard extends React.Component {
       const item = res.items.find(item => item.id === id)
       if (item) {
         if(inventory >= item.quantity + quantity) {
-          shopper.addProductToCart(cartId, newBody);
-          this.handlePopup();
+          shopper.addProductToCart(cartId, newBody).then(res => {
+            this.handleState('totalItems', res.totalItems);
+          });
+          this.handlePopup('add');
         } else {
-          alert('Not enough inventory!');
+          this.handlePopup('no');
         }
       } else {
         shopper.addProductToCart(cartId, newBody);
@@ -105,7 +118,7 @@ class ProductCard extends React.Component {
       img,
     } = this.props.data;
 
-    const { productModal, quantity, popup } = this.state;
+    const { productModal, quantity, addPopup, noInvPopup } = this.state;
 
     const invStyle = inventory > 0 ? 'text-success' : 'text-danger text-decoration-line-through';
     const invBtn = inventory > 0 ? "Add to Cart" : "Out of Stock";
@@ -116,7 +129,8 @@ class ProductCard extends React.Component {
         <div className={["card px-3 py-3 position-relative shadow", styles.div_hover]} style={{height: '300px'}}>
           <a className={styles.div_hover}>
             <div onClick={this.handleModal} className={styles.hidden}>{hoverText}</div>
-            { popup && <div className={styles.popup}>Added to Cart!</div> }
+            { addPopup && <div className={styles.popup}>Added to Cart!</div> }
+            { noInvPopup && <div className={styles.noPopup}>Not enough inventory!</div> }
             <h3 className="card-title">{name}</h3>
             <img src={img} alt={name} className={styles.product_img}/>
           </a>
@@ -136,7 +150,8 @@ class ProductCard extends React.Component {
         <div className={styles.modal}>
           <div className={styles.overlay} onClick={this.handleModal}></div>
           <div className={styles.modal_content}>
-          { popup && <div className={styles.popup}>Added to Cart!</div> }
+          { addPopup && <div className={styles.popup}>Added to Cart!</div> }
+          { noInvPopup && <div className={styles.noPopup}>Not enough inventory!</div> }
             <h2>{name}</h2>
             <img src={img} alt={name} />
             <p>{desc}</p>

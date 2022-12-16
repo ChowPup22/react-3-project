@@ -56,7 +56,7 @@ class NavBar extends React.Component {
   }
 
   handleFormData = (name, value) => {
-    if(name === 'cartId') this.handleState(name, value);
+    if(name === 'cartId' || name === 'totalItems') this.handleState(name, value);
     this.setState(prev => ({
         ...prev,
         [name]: value,
@@ -95,7 +95,7 @@ class NavBar extends React.Component {
       cartId,
       signModal
     } = this.state;
-    const x = 2; // cart items- will update with cart state
+    const { data } = this.props;
     return (
       <>
         <div className={styles.cart_button}>
@@ -103,7 +103,7 @@ class NavBar extends React.Component {
           <button type="button" className="btn btn-success position-relative" onClick={this.handleUserCart}>
             {CART_ICON}
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {x ? <span>{x}</span> : null}
+              {data ? <span>{data}</span> : null}
             </span>
           </button>
         </div>

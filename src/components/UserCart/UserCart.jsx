@@ -46,17 +46,20 @@ class UserCart extends React.Component {
         { loading ? <div>Loading...</div> 
         : 
         ( <>
-          <div className="float-start">{`Total Items: ${cartData.totalItems}`}</div>
           <br />
           {cartData.totalItems > 0 && cartData.items.map((item) => (
-            <div key={item.id} className='d-flex flex-row justify-content-around'>
+            <div key={item.id} className='d-flex flex-row justify-content-between'>
               <div>{item.name}</div>
               <div>{item.quantity}</div>
               <div>{item.lineTotal}</div>
             </div>
           ))
           }
+          <br />
+          <div className="float-end">{`Total Items: ${cartData.totalItems}`}</div>
+          <br />
           <div className="float-end">{`Subtotal: ${cartData.subtotal}`}</div>
+          <br />
           <br />
           <div>
             <button className="btn btn-success">Checkout</button>

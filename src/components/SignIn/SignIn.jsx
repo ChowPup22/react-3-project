@@ -141,6 +141,13 @@ class SignIn extends React.Component {
     }
   };
 
+  handleTotalItems = (cartId) => {
+    shopper.getShopperCart(cartId)
+      .then((res) => {
+        this.handleState('totalItems', res.totalItems);
+      })
+  }
+
   handleSignIn = (e) => {
     const { formData, users } = this.state;
     e.preventDefault();
@@ -149,6 +156,7 @@ class SignIn extends React.Component {
       const user = users.find((item) => item.email === formData.email);
       if (user) {
         if (user.meta.password === formData.pass) {
+          this.handleTotalItems(user.meta.userCart);
           this.handleState('userId', user.id);
           this.handleState('cartId', user.meta.userCart);
           this.handleState('signModal', false);
