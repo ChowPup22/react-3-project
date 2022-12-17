@@ -24,7 +24,6 @@ class SignIn extends React.Component {
   async getUsers() {
     const users = await shopper.getAllUsers();
     this.setState({ users });
-    console.log(users);
   }
 
   handleState = (name, value) => {
@@ -121,7 +120,6 @@ class SignIn extends React.Component {
 
     const errorCheck = this.checkErrorBeforeSave();
     if (!errorCheck) {
-      const cart = await shopper.createShopperCart().then((res) => res.id)
       const newBody = {
         email: formData.email,
         firstname: formData.firstName,
@@ -129,13 +127,11 @@ class SignIn extends React.Component {
         phone: formData.phone,
         meta: {
           password: formData.pass,
-          userCart: cart,
         },
       }
       shopper.postNewUser(newBody)
         .then((res) => {
           this.handleState('userId', res.id);
-          this.handleState('cartId', res.meta.userCart);
         })
       this.handleState('signModal', false);
       this.handleState('userSignedIn', true);
