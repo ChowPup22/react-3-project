@@ -1,11 +1,9 @@
 import React from "react";
 import styles from "./NavBar.module.css";
 import { CART_ICON, USER_ICON, USER_CHECK_ICON } from "../../Constants/Icons";
-import ShopperService from "../../services";
 import SignIn from "../SignIn/SignIn";
 import UserCart from "../UserCart/UserCart";
 
-const shopper = new ShopperService();
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -15,7 +13,6 @@ class NavBar extends React.Component {
       userCartModal: false,
       signModal: false,
       userId: '',
-      cartId: '',
     }
   }
 
@@ -56,7 +53,7 @@ class NavBar extends React.Component {
   }
 
   handleFormData = (name, value) => {
-    if(name === 'cartId' || name === 'totalItems') this.handleState(name, value);
+    if(name === 'totalItems') this.handleState(name, value);
     this.setState(prev => ({
         ...prev,
         [name]: value,
@@ -64,14 +61,16 @@ class NavBar extends React.Component {
   }
 
   handleUserCart = () => {
-    const { userSignedIn, userId } = this.state;
+    const { userSignedIn } = this.state;
     if(userSignedIn) {
       document.body.classList.add('active-modal');
-      shopper.getUserById(userId).then(res => {
-        this.setState({
-          userCartModal: true,
-          cartId: res.meta.userCart,
-        });
+      this.setState({
+        userCartModal: true,
+      });
+    } else if(!userSignedIn) {
+      document.body.classList.add('active-modal');
+      this.setState({
+        signModal: true,
       });
     }
   }
@@ -92,10 +91,9 @@ class NavBar extends React.Component {
     const {
       userSignedIn,
       userCartModal,
-      cartId,
       signModal
     } = this.state;
-    const { data } = this.props;
+    const { data, cartData } = this.props;
     return (
       <>
         <div className={styles.cart_button}>
@@ -126,7 +124,7 @@ class NavBar extends React.Component {
           <div className={styles.modal}>
             <div className={styles.overlay} onClick={this.handleCartModal}></div>
             <div className={styles.modal_content}>
-              <UserCart data={cartId}/>
+              <UserCart cartData={cartData} handleStateData={this.handleState}/>
               <button
                 className={styles.close_modal}
                 onClick={this.handleCartModal}

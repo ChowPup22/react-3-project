@@ -13,9 +13,17 @@ class ShopperContainer extends React.Component {
     dataReset: [],
     loading: false,
     error: false,
-    cartId: '',
     categories: [],
-    totalItems: 0,
+    cartData: {
+      items: [],
+      totalItems: 0,
+      subtotal: '',
+      priceData: {
+        taxes: '',
+        shipping: '',
+        total: '',
+      }
+    },
   }
 
   handleStateData = (name, value) => {
@@ -61,7 +69,6 @@ class ShopperContainer extends React.Component {
     this.setState({ loading: true });
     const { value } = e.target;
     const { dataReset } = this.state;
-    console.log(value);
 
     if(value === '0') {
       shopper.getShopperAPI()
@@ -109,11 +116,11 @@ class ShopperContainer extends React.Component {
 
   render() {
 
-    const { data, error, loading, cartId, categories, totalItems } = this.state;
+    const { cartData, categories, data, error, loading } = this.state;
     return(
       <div className="container mt-5">
         <h2 className="text-success fw-bolder fs-1 fst-italic mb-3">Shopper</h2>
-        <NavBar handleStateData={this.handleStateData} data={totalItems} />
+        <NavBar handleStateData={this.handleStateData} cartData={cartData} data={cartData.totalItems} />
         <div className={styles.form_floating}>
           <input
             type="text"
@@ -122,7 +129,7 @@ class ShopperContainer extends React.Component {
             placeholder=""
             onChange={this.handleSearch}
           />
-          <label for="product_search">Product Search</label>
+          <label htmlFor="product_search">Product Search</label>
         </div>
         { categories.length > 0 && 
           <select
@@ -140,7 +147,7 @@ class ShopperContainer extends React.Component {
         <br />
         <div className="row justify-content-center" style={{border: '4px solid #0de37f', borderRadius: '50px'}}>
           { !loading ? data.map(item => (
-            <ProductCard data={item} key={item.id} cartId={cartId} handleStateData={this.handleStateData} />
+            <ProductCard data={item} key={item.id} cartData={cartData} handleStateData={this.handleStateData} />
           )) : <div>Loading...</div> }
         </div>
         { error && <h3 className="text-danger">Error loading data 😔</h3> }

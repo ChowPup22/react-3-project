@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "./ProductCard.module.css";
-import ShopperService from "../../services";
 
-const shopper = new ShopperService();
 class ProductCard extends React.Component {
 
   constructor(props) {
@@ -21,8 +19,10 @@ class ProductCard extends React.Component {
   };
 
   componentDidMount() {
+    const { price } = this.props.data;
     this.setState({
       productModal: false,
+      modalPrice: price,
     });
   }
 
@@ -82,35 +82,50 @@ class ProductCard extends React.Component {
     }
   }
 
+  handleTotalItems = () => {
+    const { cartData } = this.props;
+    let total = 0;
+    cartData.items.forEach(item => {
+      total += item.quantity;
+    });
+    return total;
+  }
+
   handleAddToCart = (e) => {
     e.preventDefault();
-    const { quantity } = this.state;
-    const { id, inventory } = this.props.data;
-    const { cartId } = this.props;
+    const { modalPrice, quantity } = this.state;
+    const { id, img, inventory, name, price } = this.props.data;
+    const { cartData } = this.props;
 
     const newBody = {
       id: id,
+      img: img,
+      name: name,
       quantity: quantity,
+      price: price,
+      inventory: inventory,
+      itemTotal: modalPrice,
     }
-    if(cartId) {
-      shopper.getShopperCart(cartId).then(res => {
-        const item = res.items.find(item => item.id === id)
-        if (item) {
-          if(inventory >= item.quantity + quantity) {
-            shopper.addProductToCart(cartId, newBody).then(res => {
-              this.handleState('totalItems', res.totalItems);
-            });
-            this.handlePopup('add');
-          } else {
-            this.handlePopup('no');
-          }
-        } else {
-          shopper.addProductToCart(cartId, newBody);
-          this.handlePopup('add');
-        }
-      });
+
+    const itemTotal = this.handleTotalItems() + quantity;
+    const index = cartData.items.findIndex(item => item.id === id)
+
+    if (index >= 0) {
+      const newQuantity = cartData.items[index].quantity + quantity;
+      if (newQuantity <= inventory) {
+        cartData.items[index].quantity = newQuantity;
+        cartData.items[index].itemTotal = (newQuantity * price).toFixed(2);
+        cartData.totalItems = itemTotal;
+        this.handleState('cartData', cartData);
+        this.handlePopup('add');
+      } else if (newQuantity > inventory) {
+        this.handlePopup('no');
+      }
     } else {
-      alert('Please login to add items to cart!');
+      cartData.items.push(newBody);
+      cartData.totalItems = itemTotal;
+      this.handleState('cartData', cartData);
+      this.handlePopup('add');
     }
   }
 
@@ -132,7 +147,7 @@ class ProductCard extends React.Component {
     <>
       <div className={["col-md-3 m-3 d-block text-center", styles.div_hover]}>
         <div className={["card px-3 py-3 position-relative shadow", styles.div_hover]} style={{height: '300px'}}>
-          <a className={styles.div_hover}>
+          <a className={styles.div_hover} href='#'>
             <div onClick={this.handleModal} className={styles.hidden}>{hoverText}</div>
             { addPopup && <div className={styles.popup}>Added to Cart!</div> }
             { noInvPopup && <div className={styles.noPopup}>Not enough inventory!</div> }
@@ -169,9 +184,9 @@ class ProductCard extends React.Component {
               onClick={this.handleModal}
             >X</button>
             <div className="input-group w-25 position-absolute start-0 bottom-0" style={{marginBottom: '18px', marginLeft: '18px'}}>
-              <button className="input-group-text btn-danger" value={quantity} onClick={this.handleDecrease}>-</button>
+              <button className="input-group-text" value={quantity} onClick={this.handleDecrease}>-</button>
               <input type="text" className="form-control text-center" pattern="[0-9]" value={quantity} readOnly={true}/>
-              <button className="input-group-text success" value={quantity} onClick={this.handleIncrease}>+</button>
+              <button className="input-group-text" value={quantity} onClick={this.handleIncrease}>+</button>
             </div>
             <p className="card-text mt-3 w-25 mx-auto">Total Price: <b>${(price * quantity).toFixed(2)}</b></p>
             <button

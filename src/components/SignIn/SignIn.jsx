@@ -120,7 +120,6 @@ class SignIn extends React.Component {
 
     const errorCheck = this.checkErrorBeforeSave();
     if (!errorCheck) {
-      const cart = await shopper.createShopperCart().then((res) => res.id)
       const newBody = {
         email: formData.email,
         firstname: formData.firstName,
@@ -128,25 +127,16 @@ class SignIn extends React.Component {
         phone: formData.phone,
         meta: {
           password: formData.pass,
-          userCart: cart,
         },
       }
       shopper.postNewUser(newBody)
         .then((res) => {
           this.handleState('userId', res.id);
-          this.handleState('cartId', res.meta.userCart);
         })
       this.handleState('signModal', false);
       this.handleState('userSignedIn', true);
     }
   };
-
-  handleTotalItems = (cartId) => {
-    shopper.getShopperCart(cartId)
-      .then((res) => {
-        this.handleState('totalItems', res.totalItems);
-      })
-  }
 
   handleSignIn = (e) => {
     const { formData, users } = this.state;
@@ -156,9 +146,7 @@ class SignIn extends React.Component {
       const user = users.find((item) => item.email === formData.email);
       if (user) {
         if (user.meta.password === formData.pass) {
-          this.handleTotalItems(user.meta.userCart);
           this.handleState('userId', user.id);
-          this.handleState('cartId', user.meta.userCart);
           this.handleState('signModal', false);
           this.handleState('userSignedIn', true);
         } else {
