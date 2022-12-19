@@ -5,6 +5,7 @@ import SignIn from "../SignIn/SignIn";
 import UserCart from "../UserCart/UserCart";
 import ShippingInfo from "../ShippingInfo/ShippingInfo";
 import PaymentInfo from "../PaymentInfo/PaymentInfo";
+import CheckoutSummary from "../CheckoutSummary/CheckoutSummary";
 import Confirmation from "../Confirmation/Confirmation";
 
 
@@ -99,12 +100,13 @@ class NavBar extends React.Component {
       step,
       userId,
     } = this.state;
-    const { data, cartData } = this.props;
+    const { data, cartData, shippingData, paymentData } = this.props;
 
     const steps = {
       'cart': <UserCart cartData={cartData} handleState={this.handleState} handleStep={this.handleFormData} />,
-      'shipping': <ShippingInfo handleState={this.handleState} handleStep={this.handleFormData} />,
+      'shipping': <ShippingInfo handleState={this.handleState} handleStep={this.handleFormData} cartData={cartData} />,
       'payment': <PaymentInfo handleState={this.handleState} handleStep={this.handleFormData} />,
+      'checkout': <CheckoutSummary cartData={cartData} shippingData={shippingData} paymentData={paymentData} handleStep={this.handleFormData} />,
       'confirmation': <Confirmation user={userId} handleState={this.handleState} handleStep={this.handleFormData} cartData={cartData} />,
     }
 

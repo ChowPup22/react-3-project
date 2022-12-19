@@ -111,8 +111,10 @@ class ShippingInfo extends React.Component {
   };
 
   handleShipping = (e) => {
+    const { cartData } = this.props;
 
     if(e.target.id === 'freeShipping') {
+      cartData.priceData.shipping = 0;
       this.setState(prev => ({
         shippingData: {
           ...prev.shippingData,
@@ -120,9 +122,10 @@ class ShippingInfo extends React.Component {
         }
       }), this.handleValidations('shippingMethod', true));
     } else if (e.target.id === 'rushShipping') {
+      cartData.priceData.shipping = 5.99;
       this.setState(prev => ({
         shippingData: {
-          ...prev.userData.shippingData,
+          ...prev.shippingData,
           shippingMethod: 'Rush',
         }
       }), this.handleValidations('shippingMethod', true));
@@ -135,6 +138,7 @@ class ShippingInfo extends React.Component {
 
     if(!errorCheck) {
       this.handleState('shippingData', this.state.shippingData);
+      this.handleState('cartData', this.props.cartData);
       this.handleSteps('step', 'payment');
     }
   }

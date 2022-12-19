@@ -110,11 +110,11 @@ class ShopperContainer extends React.Component {
 
   render() {
 
-    const { cartData, categories, data, error, loading } = this.state;
+    const { cartData, shippingData, paymentData, categories, data, error, loading } = this.state;
     return(
       <div className="container mt-5">
         <h2 className="text-success fw-bolder fs-1 fst-italic mb-3">Shopper</h2>
-        <NavBar handleStateData={this.handleStateData} cartData={cartData} data={cartData.totalItems} />
+        <NavBar handleStateData={this.handleStateData} cartData={cartData} shippingData={shippingData} paymentData={paymentData} data={cartData.totalItems} />
         <div className={styles.form_floating}>
           <input
             type="text"

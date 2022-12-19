@@ -105,7 +105,7 @@ class PaymentInfo extends React.Component {
     const errorCheck = this.checkErrorBeforeSave();
     if (!errorCheck) {
       this.handleState('paymentData', paymentData)
-      this.handleSteps('step', 'confirmation')
+      this.handleSteps('step', 'checkout')
     }
   }
 

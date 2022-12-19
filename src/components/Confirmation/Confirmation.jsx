@@ -37,7 +37,7 @@ class Confirmation extends React.Component {
     let code4 = num.charAt(Math.floor(Math.random()* num.length)) + upper.charAt(Math.floor(Math.random()* upper.length)) + lower.charAt(Math.floor(Math.random()* lower.length)) + upper.charAt(Math.floor(Math.random()* upper.length)) + '-';
     let code5 = lower.charAt(Math.floor(Math.random()* lower.length)) + num.charAt(Math.floor(Math.random()* num.length)) + upper.charAt(Math.floor(Math.random()* upper.length));
 
-    return 'JSX# '+code1+code2+code3+code4+code5;
+    return 'SHOPPER# '+code1+code2+code3+code4+code5;
   }
 
   handleCopyCode = (e) => {
@@ -55,7 +55,6 @@ class Confirmation extends React.Component {
   
   render() {
     const { user } = this.state;
-    const { cartData } = this.props;
     const confirmCode = this.handleConfirmCode();
     return (
         <div className={styles.confirm_wrap}>
