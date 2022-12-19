@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./ShopperContainer.module.css";
-import ShopperService from "../services";
-import NavBar from "./NavBar/NavBar";
-import ProductCard from "./ProductCard/ProductCard";
+import ShopperService from "../../services";
+import NavBar from "../NavBar/NavBar";
+import ProductCard from "../ProductCard/ProductCard";
+import { INIT_CART } from "../../Constants/States";
 
 const shopper = new ShopperService();
 
@@ -14,16 +15,9 @@ class ShopperContainer extends React.Component {
     loading: false,
     error: false,
     categories: [],
-    cartData: {
-      items: [],
-      totalItems: 0,
-      subtotal: '',
-      priceData: {
-        taxes: '',
-        shipping: '',
-        total: '',
-      }
-    },
+    cartData: INIT_CART,
+    shippingData: {},
+    paymentData: {},
   }
 
   handleStateData = (name, value) => {

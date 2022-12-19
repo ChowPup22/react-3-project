@@ -3,6 +3,9 @@ import styles from "./NavBar.module.css";
 import { CART_ICON, USER_ICON, USER_CHECK_ICON } from "../../Constants/Icons";
 import SignIn from "../SignIn/SignIn";
 import UserCart from "../UserCart/UserCart";
+import ShippingInfo from "../ShippingInfo/ShippingInfo";
+import PaymentInfo from "../PaymentInfo/PaymentInfo";
+import Confirmation from "../Confirmation/Confirmation";
 
 
 class NavBar extends React.Component {
@@ -11,6 +14,7 @@ class NavBar extends React.Component {
     this.state = {
       userSignedIn: false,
       userCartModal: false,
+      step: 'cart',
       signModal: false,
       userId: '',
     }
@@ -91,9 +95,19 @@ class NavBar extends React.Component {
     const {
       userSignedIn,
       userCartModal,
-      signModal
+      signModal,
+      step,
+      userId,
     } = this.state;
     const { data, cartData } = this.props;
+
+    const steps = {
+      'cart': <UserCart cartData={cartData} handleState={this.handleState} handleStep={this.handleFormData} />,
+      'shipping': <ShippingInfo handleState={this.handleState} handleStep={this.handleFormData} />,
+      'payment': <PaymentInfo handleState={this.handleState} handleStep={this.handleFormData} />,
+      'confirmation': <Confirmation user={userId} handleState={this.handleState} handleStep={this.handleFormData} />,
+    }
+
     return (
       <>
         <div className={styles.cart_button}>
@@ -124,7 +138,7 @@ class NavBar extends React.Component {
           <div className={styles.modal}>
             <div className={styles.overlay} onClick={this.handleCartModal}></div>
             <div className={styles.modal_content}>
-              <UserCart cartData={cartData} handleStateData={this.handleState}/>
+              { steps[step] }
               <button
                 className={styles.close_modal}
                 onClick={this.handleCartModal}

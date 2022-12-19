@@ -1,14 +1,11 @@
 import React from "react";
 import styles from "./UserCart.module.css";
-import ShopperService from "../../services";
 
-const shopper = new ShopperService();
 
 class UserCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      shippingInfo: {},
       loading: false,
       error: false,
     }
@@ -42,7 +39,7 @@ class UserCart extends React.Component {
     this.props.cartData.totalItems -= this.props.cartData.items[index].quantity;
     this.props.cartData.items.splice(index, 1);
     this.props.cartData.subtotal = this.handleSubtotal();
-    this.props.handleStateData('cartData', this.props.cartData);
+    this.props.handleState('cartData', this.props.cartData);
   }
 
   handleIncrease = (e) => {
@@ -58,7 +55,7 @@ class UserCart extends React.Component {
       this.props.cartData.items[index].itemTotal = newPrice;
       this.props.cartData.totalItems += 1;
       this.props.cartData.subtotal = this.handleSubtotal();
-      this.props.handleStateData('cartData', this.props.cartData);
+      this.props.handleState('cartData', this.props.cartData);
     } else if (inventory === e.target.value) {
       return;
   };
@@ -77,11 +74,16 @@ class UserCart extends React.Component {
       this.props.cartData.items[index].itemTotal = newPrice;
       this.props.cartData.totalItems -= 1;
       this.props.cartData.subtotal = this.handleSubtotal();
-      this.props.handleStateData('cartData', this.props.cartData);
+      this.props.handleState('cartData', this.props.cartData);
     } else if (e.target.value === 0) {
       return;
     }
     
+  }
+
+  handleSubmit = () => {
+    this.props.handleState('cartData', this.props.cartData)
+    this.props.handleStep('step', 'shipping');
   }
 
   render() {
@@ -115,7 +117,7 @@ class UserCart extends React.Component {
           <br />
           <br />
           <div>
-            <button className="btn btn-success">Checkout</button>
+            <button className="btn btn-success" onClick={this.handleSubmit}>Begin Checkout</button>
           </div>
         </> ) }
 
