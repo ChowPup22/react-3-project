@@ -2,18 +2,29 @@ import React from "react";
 import { INIT_CART } from "../../Constants/States";
 import { CONFIRM_ICON } from "../../Constants/Icons";
 import styles from './Confirmation.module.css';
+import ShopperService from "../../services";
+
+const shopper = new ShopperService();
 
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.user,
+      user: '',
     }
   }
 
   handleState = (name, value) => {
     this.props.handleState(name, value);
   };
+
+  componentDidMount() {
+    shopper.getUserById(this.props.userId).then((res) => {
+      this.setState({
+        user: res.data,
+      });
+    });
+  }
 
   handleConfirmCode = () => {
     let lower = 'abcdefghijklmnopqrstuvwxyz';
@@ -36,12 +47,15 @@ class Confirmation extends React.Component {
 
   handleReturn = () => {
     this.handleState('cartData', INIT_CART);
+    this.handleState('shippingData', {});
+    this.handleState('paymentData', {});
     this.handleStep('userCartModal', false);
     this.handleStep('step', 'cart');
   }
   
   render() {
-    const { user } = this.props;
+    const { user } = this.state;
+    const { cartData } = this.props;
     const confirmCode = this.handleConfirmCode();
     return (
         <div className={styles.confirm_wrap}>
@@ -50,7 +64,7 @@ class Confirmation extends React.Component {
           <br />
           <br />
           <div className={styles.icon_wrap}>{CONFIRM_ICON}</div>
-          <p>Thank you <b>{user}</b> for your purchase!</p>
+          <p>Thank you <b>{user.firstName}</b> for your purchase!</p>
           <h5>Your confirmation code is: </h5>
           <span style={{fontSize: '10px'}}>CLICK TO COPY</span>
           <div className={styles.confirm_code} onClick={this.handleCopyCode}>

@@ -105,7 +105,7 @@ class NavBar extends React.Component {
       'cart': <UserCart cartData={cartData} handleState={this.handleState} handleStep={this.handleFormData} />,
       'shipping': <ShippingInfo handleState={this.handleState} handleStep={this.handleFormData} />,
       'payment': <PaymentInfo handleState={this.handleState} handleStep={this.handleFormData} />,
-      'confirmation': <Confirmation user={userId} handleState={this.handleState} handleStep={this.handleFormData} />,
+      'confirmation': <Confirmation user={userId} handleState={this.handleState} handleStep={this.handleFormData} cartData={cartData} />,
     }
 
     return (
