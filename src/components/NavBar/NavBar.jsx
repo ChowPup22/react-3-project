@@ -176,13 +176,9 @@ class NavBar extends React.Component {
             <div className={styles.modal_content}>
                 <div>
                   <h3>Sign Out?</h3>
-                  <button type="button" className="btn btn-danger" onClick={this.handleSignOut}>Yes</button>
-                  <button type="button" className="btn btn-secondary" onClick={this.handleSignOutModal}>No</button>
+                  <button type="button" className="btn btn-danger me-3" onClick={this.handleSignOut}>Yes</button>
+                  <button type="button" className="btn btn-secondary ms-3" onClick={this.handleSignOutModal}>No</button>
                 </div>
-              <button
-                className={styles.close_modal}
-                onClick={this.handleSignOutModal}
-              >X</button>
             </div>
           </div>
         </div>
