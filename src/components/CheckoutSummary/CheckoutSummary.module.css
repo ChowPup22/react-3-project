@@ -2,24 +2,23 @@
   position: relative;
   background-color: white;
   color: black;
-  width: 60%;
   box-shadow: 3px 8px 14px rgba(33, 33, 33, 0.6);
   padding: 0 8px;
-  margin-left: 30px;
+  margin: auto;
 }
 
 .checkout_wrap h5 {
   font-size: 16px;
-  float: right;
-  padding-right: 8px;
+  float: left;
+  padding-left: 8px;
   margin-top: 0;
   padding-top: 3px;
 }
 .checkout_wrap p { font-size: 18px; }
-.checkout_wrap hr { width: 80%;}
+.checkout_wrap hr { width: 95%;}
 
 .item_sum_wrap {
-  width: 55%;
+  width: 90%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -29,7 +28,7 @@
 .item_sum_wrap p { font-size: 16px; }
 
 .shipping_sum_wrap h5 { float: left; margin-bottom: 0; }
-.shipping_sum_wrap p { font-size: 10px; }
+.shipping_sum_wrap p { font-size: 12px; }
 
 .total_wrap p { font-size: 12px;}
 
@@ -41,7 +40,7 @@
   padding: 0;
 }
 p.total { font-size: 14px; font-weight: 500;}
-p.b_total { font-weight: 800; }
+p.b_total { font-weight: 800; margin: 0 15px; }
 p.p_total { 
   color: #cc2c53; 
   font-size: 18px;
@@ -55,7 +54,7 @@ p.p_total {
   font-weight: 700;
   padding: 3px 5px;
   cursor: pointer;
-  margin: 50px auto 0;
+  margin: 35px 22px 0;
 }
 
 .hr_bottom {

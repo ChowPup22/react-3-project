@@ -11,6 +11,8 @@ class Confirmation extends React.Component {
     super(props);
     this.state = {
       user: '',
+      loading: false,
+      error: false,
     }
   }
 
@@ -18,10 +20,26 @@ class Confirmation extends React.Component {
     this.props.handleState(name, value);
   };
 
+  handleStep = (name, value) => {
+    this.props.handleStep(name, value);
+  }
+
   componentDidMount() {
-    shopper.getUserById(this.props.userId).then((res) => {
+    this.setState({ loading: true });
+    shopper.getUserById(this.props.user).then((res) => {
+      if(res){
+        this.setState({
+          user: res,
+          loading: false,
+        });
+      } else {
+        this.setState({ loading: false });
+      }
+    }, (error) => {
+      console.log(error);
       this.setState({
-        user: res.data,
+        loading: false,
+        error: true,
       });
     });
   }
@@ -54,23 +72,28 @@ class Confirmation extends React.Component {
   }
   
   render() {
-    const { user } = this.state;
+    const { user, loading, error } = this.state;
     const confirmCode = this.handleConfirmCode();
     return (
-        <div className={styles.confirm_wrap}>
-          <h2>Confirmation: </h2>
-          <br />
-          <br />
-          <br />
-          <div className={styles.icon_wrap}>{CONFIRM_ICON}</div>
-          <p>Thank you <b>{user.firstName}</b> for your purchase!</p>
-          <h5>Your confirmation code is: </h5>
-          <span style={{fontSize: '10px'}}>CLICK TO COPY</span>
-          <div className={styles.confirm_code} onClick={this.handleCopyCode}>
-            <p id='code'>{confirmCode}</p>
-          </div>
-          <input type="button" value="BACK TO HOME" className={styles.btn_return} onClick={this.handleReturn} />
-        </div>
+        <>
+          {loading ? <div className='text-success'>Loading...</div> :
+            <div className={styles.confirm_wrap}>
+            <h2>Confirmation: </h2>
+            <br />
+            <br />
+            <br />
+            <div className={styles.icon_wrap}>{CONFIRM_ICON}</div>
+            <p>Thank you <b>{user.firstName}</b> for your purchase!</p>
+            <h5>Your confirmation code is: </h5>
+            <span style={{fontSize: '10px'}}>CLICK TO COPY</span>
+            <div className={styles.confirm_code} onClick={this.handleCopyCode}>
+              <p id='code'>{confirmCode}</p>
+            </div>
+            <input type="button" value="BACK TO HOME" className={styles.btn_return} onClick={this.handleReturn} />
+          </div> 
+          }
+          {error ? <div className='text-danger'>Error: Something went wrong!</div> : null}
+        </>
     )
   }
 }

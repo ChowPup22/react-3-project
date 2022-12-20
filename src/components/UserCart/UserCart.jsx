@@ -83,9 +83,14 @@ class UserCart extends React.Component {
 
   handleSubmit = () => {
     const { cartData } = this.props;
-    cartData.taxes = (cartData.subtotal * 0.07).toFixed(2);
-    this.props.handleState('cartData', this.props.cartData);
-    this.props.handleStep('step', 'shipping');
+    if (cartData.totalItems === 0) {
+      alert('Please add items to your cart before proceeding.');
+      return;
+    } else {
+      cartData.priceData.taxes = (cartData.subtotal * 0.07).toFixed(2);
+      this.props.handleState('cartData', this.props.cartData);
+      this.props.handleStep('step', 'shipping');
+    }
   }
 
   render() {

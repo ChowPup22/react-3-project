@@ -17,6 +17,7 @@ class NavBar extends React.Component {
       userCartModal: false,
       step: 'cart',
       signModal: false,
+      signOutModal: false,
       userId: '',
     }
   }
@@ -37,6 +38,22 @@ class NavBar extends React.Component {
       document.body.classList.add('active-modal');
       this.setState({
         signModal: true,
+      });
+    }
+  }
+
+  handleSignOutModal = () => {
+    const { signOutModal } = this.state;
+    
+    if (signOutModal) {
+      document.body.classList.remove('active-modal');
+      this.setState({
+        signOutModal: false,
+      });
+    } else if (!signOutModal) {
+      document.body.classList.add('active-modal');
+      this.setState({
+        signOutModal: true,
       });
     }
   }
@@ -83,7 +100,10 @@ class NavBar extends React.Component {
   handleUser = () => {
     const { userSignedIn } = this.state;
     if(userSignedIn) {
-      // sign out user modal/ confirm sign out
+      document.body.classList.add('active-modal');
+      this.setState({
+        signOutModal: true,
+      });
     } else if(!userSignedIn) {
       document.body.classList.add('active-modal');
       this.setState({
@@ -92,11 +112,21 @@ class NavBar extends React.Component {
     }
   }
 
+  handleSignOut = () => {
+    this.setState({
+      userSignedIn: false,
+      signOutModal: false,
+      userId: '',
+    });
+    document.body.classList.remove('active-modal');
+  }
+
   render() {
     const {
       userSignedIn,
       userCartModal,
       signModal,
+      signOutModal,
       step,
       userId,
     } = this.state;
@@ -134,6 +164,24 @@ class NavBar extends React.Component {
               </div>
             </div>
           </div>  
+      )}
+      {signOutModal && (
+        <div className={styles.modal_wrap}>
+          <div className={styles.modal}>
+            <div className={styles.overlay} onClick={this.handleSignModal}></div>
+            <div className={styles.modal_content}>
+                <div>
+                  <h3>Sign Out?</h3>
+                  <button type="button" className="btn btn-danger" onClick={this.handleSignOut}>Yes</button>
+                  <button type="button" className="btn btn-secondary" onClick={this.handleSignOutModal}>No</button>
+                </div>
+              <button
+                className={styles.close_modal}
+                onClick={this.handleSignOutModal}
+              >X</button>
+            </div>
+          </div>
+        </div>
       )}
       {userCartModal && (
         <div className={styles.modal_wrap}>
