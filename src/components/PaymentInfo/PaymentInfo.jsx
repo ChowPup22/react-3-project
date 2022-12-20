@@ -101,8 +101,8 @@ class PaymentInfo extends React.Component {
   handleProceed = (e) => {
     e.preventDefault();
     const { paymentData } = this.state;
-
     const errorCheck = this.checkErrorBeforeSave();
+    
     if (!errorCheck) {
       this.handleState('paymentData', paymentData)
       this.handleSteps('step', 'checkout')
@@ -114,14 +114,12 @@ class PaymentInfo extends React.Component {
   }
 
   render() {
-
     const {
       paymentData,
       error,
       cardType,
       maxLength,
     } = this.state;
-
 
     return (
         <div className={styles.payment_wrap}>

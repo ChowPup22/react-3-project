@@ -2,7 +2,6 @@ import React from "react";
 import styles from './InputBase.module.css';
 import { CARD, CARDICON } from "../../Constants/Cards";
 
-
 const InputBase = ({ passData, errorM, header, isCard, cardType, select, ...props}) => (
   <label>
     {header && <div className={styles.header}>{header}</div>}
@@ -35,4 +34,5 @@ const InputBase = ({ passData, errorM, header, isCard, cardType, select, ...prop
       </select> }
   </label>
 )
+
 export default InputBase;

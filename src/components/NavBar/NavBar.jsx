@@ -8,7 +8,6 @@ import PaymentInfo from "../PaymentInfo/PaymentInfo";
 import CheckoutSummary from "../CheckoutSummary/CheckoutSummary";
 import Confirmation from "../Confirmation/Confirmation";
 
-
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
@@ -130,7 +129,12 @@ class NavBar extends React.Component {
       step,
       userId,
     } = this.state;
-    const { data, cartData, shippingData, paymentData } = this.props;
+    const {
+      data,
+      cartData,
+      shippingData,
+      paymentData
+    } = this.props;
 
     const steps = {
       'cart': <UserCart cartData={cartData} handleState={this.handleState} handleStep={this.handleFormData} />,

@@ -26,10 +26,8 @@
 }
 
 .item_sum_wrap p { font-size: 16px; }
-
 .shipping_sum_wrap h5 { float: left; margin-bottom: 0; }
 .shipping_sum_wrap p { font-size: 12px; }
-
 .total_wrap p { font-size: 12px;}
 
 .pair_wrap {
@@ -57,9 +55,7 @@ p.p_total {
   margin: 35px 22px 0;
 }
 
-.hr_bottom {
-  margin-bottom: 18px;
-}
+.hr_bottom { margin-bottom: 18px; }
 
 .pay_confirm_span {
   font-size: 16px;

@@ -1,6 +1,4 @@
 import React from "react";
-import styles from "./UserCart.module.css";
-
 
 class UserCart extends React.Component {
   constructor(props) {
@@ -44,7 +42,6 @@ class UserCart extends React.Component {
 
   handleIncrease = (e) => {
     e.preventDefault();
-
     const index = this.props.cartData.items.findIndex((item) => item.id === e.target.id);
     const { inventory, price } = this.props.cartData.items[index];
 
@@ -63,7 +60,6 @@ class UserCart extends React.Component {
 
   handleDecrease = (e) => {
     e.preventDefault();
-    
     const index = this.props.cartData.items.findIndex((item) => item.id === e.target.id);
     const { price } = this.props.cartData.items[index];
 
@@ -78,7 +74,6 @@ class UserCart extends React.Component {
     } else if (e.target.value === 0) {
       return;
     }
-    
   }
 
   handleSubmit = () => {
@@ -96,9 +91,10 @@ class UserCart extends React.Component {
   render() {
     const { error, loading } = this.state;
     const { cartData } = this.props;
+
     return (
-      <div className={styles.cart_wrap}>
-        <h1>Test Cart</h1>
+      <div style={{ width: '500px' }}>
+        <h1>Cart</h1>
         { loading ? <div>Loading...</div> 
         : 
         ( <>
@@ -127,7 +123,6 @@ class UserCart extends React.Component {
             <button className="btn btn-success" onClick={this.handleSubmit}>Begin Checkout</button>
           </div>
         </> ) }
-
         { error && <h3 className="text-danger">Error loading data 😔</h3> }
       </div>
     )

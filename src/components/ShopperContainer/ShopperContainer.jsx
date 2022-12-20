@@ -8,16 +8,18 @@ import { INIT_CART } from "../../Constants/States";
 const shopper = new ShopperService();
 
 class ShopperContainer extends React.Component {
-
-  state = {
-    data: [],
-    dataReset: [],
-    loading: false,
-    error: false,
-    categories: [],
-    cartData: INIT_CART,
-    shippingData: {},
-    paymentData: {},
+  constructor() {
+    super();
+    this.state = {
+      data: [],
+      dataReset: [],
+      loading: false,
+      error: false,
+      categories: [],
+      cartData: INIT_CART,
+      shippingData: {},
+      paymentData: {},
+    }
   }
 
   handleStateData = (name, value) => {
@@ -109,8 +111,16 @@ class ShopperContainer extends React.Component {
   }
 
   render() {
-
-    const { cartData, shippingData, paymentData, categories, data, error, loading } = this.state;
+    const {
+      cartData,
+      shippingData,
+      paymentData,
+      categories,
+      data,
+      error,
+      loading
+    } = this.state;
+    
     return(
       <div className="container mt-5">
         <h2 className="text-success fw-bolder fs-1 fst-italic mb-3">Shopper</h2>

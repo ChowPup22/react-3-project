@@ -1,6 +1,5 @@
 import { HEADERS, SHOPPER_URL } from "./Constants/API.js";
 
-
 class ShopperService {
 
   async getShopperAPI() {

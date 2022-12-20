@@ -1,6 +1,4 @@
-body.active-modal {
-  overflow-y: hidden;
-}
+body.active-modal { overflow-y: hidden; }
 
 .product_img {
   height: 100px;
@@ -8,9 +6,7 @@ body.active-modal {
   margin: 0 auto;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
 .div_hover {
   text-decoration: none;
@@ -21,9 +17,7 @@ body.active-modal {
   height: 80%;
 }
 
-.div_hover:hover {
-  color: initial;
-}
+.div_hover:hover { color: initial; }
 
 .div_hover:hover .hidden {
   opacity: 1!important;
@@ -63,9 +57,7 @@ body.active-modal {
   z-index: 100;
 }
 
-.overlay {
-  background-color: rgb(49, 49, 49, 0.8);
-}
+.overlay { background-color: rgb(49, 49, 49, 0.8); }
 
 .modal_content {
   position: absolute;

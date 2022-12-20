@@ -48,7 +48,6 @@ class Confirmation extends React.Component {
     let lower = 'abcdefghijklmnopqrstuvwxyz';
     let upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let num = '0123456789';
-    
     let code1 = lower.charAt(Math.floor(Math.random()* lower.length)) + lower.charAt(Math.floor(Math.random()* lower.length)) + num.charAt(Math.floor(Math.random()* num.length)) + '-';
     let code2 = lower.charAt(Math.floor(Math.random()* lower.length)) + upper.charAt(Math.floor(Math.random()* upper.length)) + upper.charAt(Math.floor(Math.random()* upper.length)) + lower.charAt(Math.floor(Math.random()* lower.length)) + '_';
     let code3 = num.charAt(Math.floor(Math.random()* num.length)) + num.charAt(Math.floor(Math.random()* num.length))+ upper.charAt(Math.floor(Math.random()* upper.length)) + num.charAt(Math.floor(Math.random()* num.length)) + '_';

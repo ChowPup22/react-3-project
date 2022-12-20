@@ -76,8 +76,6 @@ class SignIn extends React.Component {
     }));
   };
 
-  
-
   handleValidations = (type, value) => {
     const { pass } = this.state.formData;
 
@@ -117,8 +115,8 @@ class SignIn extends React.Component {
   handleCreateUser = async (e) => {
     const { formData } = this.state;
     e.preventDefault();
-
     const errorCheck = this.checkErrorBeforeSave();
+    
     if (!errorCheck) {
       const newBody = {
         email: formData.email,

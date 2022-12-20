@@ -21,9 +21,7 @@ form { position: relative; }
   font-size: 28px;
 }
 
-.btn_wrapper {
-  text-align: center;
-}
+.btn_wrapper { text-align: center; }
 
 .main {
   background: #198754;

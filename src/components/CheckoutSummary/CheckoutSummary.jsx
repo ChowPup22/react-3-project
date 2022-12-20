@@ -64,7 +64,13 @@ class CheckoutSummary extends React.Component {
   }
 
   render() {
-    const { loading, error, total, isConfirm } = this.state;
+    const {
+      loading,
+      error,
+      total,
+      isConfirm
+    } = this.state;
+
     const {
       cartData,
       shippingData,
@@ -136,9 +142,9 @@ class CheckoutSummary extends React.Component {
             </div>
           </div>
           <hr className={styles.hr_bottom} />
-            <div>
-              <span className={styles.pay_confirm_span}>Paying with card ending in {handleCardTrim()}</span>
-            </div>
+          <div>
+            <span className={styles.pay_confirm_span}>Paying with card ending in {handleCardTrim()}</span>
+          </div>
           <input type="button" value="BACK" className={styles.btn_return} onClick={this.handleReturn} />
           <button className="btn btn-success btn-lg ms-5 mb-3" onClick={this.handleConfirm}>Confirm Payment</button>
         </div>
