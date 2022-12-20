@@ -1,5 +1,5 @@
 import './App.css';
-import ShopperContainer from './components/ShopperContainer';
+import ShopperContainer from './components/ShopperContainer/ShopperContainer';
 
 function App() {
   return (

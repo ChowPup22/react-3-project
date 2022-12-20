@@ -3,6 +3,10 @@ import styles from "./NavBar.module.css";
 import { CART_ICON, USER_ICON, USER_CHECK_ICON } from "../../Constants/Icons";
 import SignIn from "../SignIn/SignIn";
 import UserCart from "../UserCart/UserCart";
+import ShippingInfo from "../ShippingInfo/ShippingInfo";
+import PaymentInfo from "../PaymentInfo/PaymentInfo";
+import CheckoutSummary from "../CheckoutSummary/CheckoutSummary";
+import Confirmation from "../Confirmation/Confirmation";
 
 
 class NavBar extends React.Component {
@@ -11,7 +15,9 @@ class NavBar extends React.Component {
     this.state = {
       userSignedIn: false,
       userCartModal: false,
+      step: 'cart',
       signModal: false,
+      signOutModal: false,
       userId: '',
     }
   }
@@ -32,6 +38,22 @@ class NavBar extends React.Component {
       document.body.classList.add('active-modal');
       this.setState({
         signModal: true,
+      });
+    }
+  }
+
+  handleSignOutModal = () => {
+    const { signOutModal } = this.state;
+    
+    if (signOutModal) {
+      document.body.classList.remove('active-modal');
+      this.setState({
+        signOutModal: false,
+      });
+    } else if (!signOutModal) {
+      document.body.classList.add('active-modal');
+      this.setState({
+        signOutModal: true,
       });
     }
   }
@@ -78,7 +100,10 @@ class NavBar extends React.Component {
   handleUser = () => {
     const { userSignedIn } = this.state;
     if(userSignedIn) {
-      // sign out user modal/ confirm sign out
+      document.body.classList.add('active-modal');
+      this.setState({
+        signOutModal: true,
+      });
     } else if(!userSignedIn) {
       document.body.classList.add('active-modal');
       this.setState({
@@ -87,13 +112,34 @@ class NavBar extends React.Component {
     }
   }
 
+  handleSignOut = () => {
+    this.setState({
+      userSignedIn: false,
+      signOutModal: false,
+      userId: '',
+    });
+    document.body.classList.remove('active-modal');
+  }
+
   render() {
     const {
       userSignedIn,
       userCartModal,
-      signModal
+      signModal,
+      signOutModal,
+      step,
+      userId,
     } = this.state;
-    const { data, cartData } = this.props;
+    const { data, cartData, shippingData, paymentData } = this.props;
+
+    const steps = {
+      'cart': <UserCart cartData={cartData} handleState={this.handleState} handleStep={this.handleFormData} />,
+      'shipping': <ShippingInfo handleState={this.handleState} handleStep={this.handleFormData} cartData={cartData} />,
+      'payment': <PaymentInfo handleState={this.handleState} handleStep={this.handleFormData} />,
+      'checkout': <CheckoutSummary cartData={cartData} shippingData={shippingData} paymentData={paymentData} handleStep={this.handleFormData} />,
+      'confirmation': <Confirmation user={userId} handleState={this.handleState} handleStep={this.handleFormData} cartData={cartData} />,
+    }
+
     return (
       <>
         <div className={styles.cart_button}>
@@ -119,12 +165,30 @@ class NavBar extends React.Component {
             </div>
           </div>  
       )}
+      {signOutModal && (
+        <div className={styles.modal_wrap}>
+          <div className={styles.modal}>
+            <div className={styles.overlay} onClick={this.handleSignModal}></div>
+            <div className={styles.modal_content}>
+                <div>
+                  <h3>Sign Out?</h3>
+                  <button type="button" className="btn btn-danger" onClick={this.handleSignOut}>Yes</button>
+                  <button type="button" className="btn btn-secondary" onClick={this.handleSignOutModal}>No</button>
+                </div>
+              <button
+                className={styles.close_modal}
+                onClick={this.handleSignOutModal}
+              >X</button>
+            </div>
+          </div>
+        </div>
+      )}
       {userCartModal && (
         <div className={styles.modal_wrap}>
           <div className={styles.modal}>
             <div className={styles.overlay} onClick={this.handleCartModal}></div>
             <div className={styles.modal_content}>
-              <UserCart cartData={cartData} handleStateData={this.handleState}/>
+              { steps[step] }
               <button
                 className={styles.close_modal}
                 onClick={this.handleCartModal}

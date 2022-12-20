@@ -211,7 +211,7 @@ class SignIn extends React.Component {
           )) : null}
           <span className={styles.pass_toggle} onClick={this.passVisibility}>{passData.passIcon}</span>
           <div className={styles.btn_wrapper}>
-            <InputBase type="submit" value={button} className={styles.main} onSubmit={button === 'Sign In' ? this.handleSignIn : this.handleCreateUser }/>
+            <button type="submit" className="btn btn-success btn-lg mt-5" onSubmit={button === 'Sign In' ? this.handleSignIn : this.handleCreateUser }>{button}</button>
           </div>
         </form>  
       </div>

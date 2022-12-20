@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./ShopperContainer.module.css";
-import ShopperService from "../services";
-import NavBar from "./NavBar/NavBar";
-import ProductCard from "./ProductCard/ProductCard";
+import ShopperService from "../../services";
+import NavBar from "../NavBar/NavBar";
+import ProductCard from "../ProductCard/ProductCard";
+import { INIT_CART } from "../../Constants/States";
 
 const shopper = new ShopperService();
 
@@ -14,16 +15,9 @@ class ShopperContainer extends React.Component {
     loading: false,
     error: false,
     categories: [],
-    cartData: {
-      items: [],
-      totalItems: 0,
-      subtotal: '',
-      priceData: {
-        taxes: '',
-        shipping: '',
-        total: '',
-      }
-    },
+    cartData: INIT_CART,
+    shippingData: {},
+    paymentData: {},
   }
 
   handleStateData = (name, value) => {
@@ -116,11 +110,11 @@ class ShopperContainer extends React.Component {
 
   render() {
 
-    const { cartData, categories, data, error, loading } = this.state;
+    const { cartData, shippingData, paymentData, categories, data, error, loading } = this.state;
     return(
       <div className="container mt-5">
         <h2 className="text-success fw-bolder fs-1 fst-italic mb-3">Shopper</h2>
-        <NavBar handleStateData={this.handleStateData} cartData={cartData} data={cartData.totalItems} />
+        <NavBar handleStateData={this.handleStateData} cartData={cartData} shippingData={shippingData} paymentData={paymentData} data={cartData.totalItems} />
         <div className={styles.form_floating}>
           <input
             type="text"
