@@ -1,5 +1,4 @@
 import React from "react";
-import { INIT_CART } from "../../Constants/States";
 import { CONFIRM_ICON } from "../../Constants/Icons";
 import styles from './Confirmation.module.css';
 import ShopperService from "../../services";
@@ -63,7 +62,18 @@ class Confirmation extends React.Component {
   }
 
   handleReturn = () => {
-    this.handleState('cartData', INIT_CART);
+    const cart = {
+      items: [],
+      totalItems: 0,
+      subtotal: '',
+      priceData: {
+        taxes: '',
+        shipping: '',
+        total: '',
+      },
+  };
+
+    this.handleState('cartData', cart);
     this.handleState('shippingData', {});
     this.handleState('paymentData', {});
     this.handleStep('userCartModal', false);
