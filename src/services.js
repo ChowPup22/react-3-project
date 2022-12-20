@@ -134,7 +134,6 @@ class ShopperService {
         const response = await fetch(`${SHOPPER_URL}/customers`, {method: 'POST', headers: HEADERS, body: JSON.stringify(body)})
         if(response.ok) {
           const json = await response.json();
-          console.log(json);
           const data = {
             id: json.id,
             firstName: json.firstname,
