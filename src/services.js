@@ -8,8 +8,9 @@ class ShopperService {
       try {
         const response = await fetch(`${SHOPPER_URL}/products`, {method: 'GET', headers: HEADERS})
         if (response.ok) {
+          let data = [];
           const json = await response.json();
-          const data = json.data
+          data = json.data
             .map(item => ({
               name: item.name,
               id: item.id,
@@ -19,6 +20,20 @@ class ShopperService {
               category: item.categories[0].id,
               img: item.image.url,
             }));
+          const response2 = await fetch(`${SHOPPER_URL}/products?page=2`, {method: 'GET', headers: HEADERS})
+          if (response2.ok) {
+            const json2 = await response2.json();
+            data = data.concat(json2.data
+              .map(item => ({
+                name: item.name,
+                id: item.id,
+                desc: item.description.replace(/(<p[^>]+?>|<p>|<\/p>)/img, " "),
+                price: item.price.raw,
+                inventory: item.inventory.available,
+                category: item.categories[0].id,
+                img: item.image.url,
+              })));
+          }
           success({ data, response });
         } else {
           const json = await response.json();
