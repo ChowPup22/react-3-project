@@ -9,12 +9,13 @@
   display: flex;
   justify-content: space-around;
   font-size: 27px;
+  margin-bottom: 14px;
 }
 form { position: relative; }
 
 .pass_toggle {
   position: absolute;
-  top: 110px;
+  top: 140px;
   right: 12px;
   color: gray;
   cursor: pointer;

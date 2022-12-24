@@ -1,5 +1,4 @@
 label {
-  height: 70px;
   display: block;
   position: relative;
 }
@@ -10,6 +9,7 @@ label {
   padding: 10px;
   line-height: 1.2;
   width: 480px;
+  margin-bottom: 18px;
 }
 
 .header {

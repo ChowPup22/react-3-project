@@ -103,9 +103,9 @@ const cardExpireValidation = (value) => {
       let visaDate = new Date(`20${visaValue[1]}`, visaValue[0], 0);
       return currentDate < moment(visaDate)
         ? undefined
-        : 'Please enter a valid date';
+        : 'Card is expired, Enter a valid date';
     } else {
-      return 'Invalid date format';
+      return 'Invalid date format. Use MM/YY';
     }
   }
 };
